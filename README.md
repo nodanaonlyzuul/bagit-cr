@@ -29,3 +29,9 @@ TODO: Write development instructions here
 ## Contributors
 
 - [[your-github-name]](https://github.com/[your-github-name]) nodanaonlyzuul - creator, maintainer
+
+## Acknowledgements
+
+This is based on the Ruby gem [tipr/bagit](https://github.com/tipr/bagit).
+I am just trying to see how fast a crystal implementation will validate
+compared to Ruby's.
