@@ -28,7 +28,7 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [[your-github-name]](https://github.com/[your-github-name]) nodanaonlyzuul - creator, maintainer
+- [nodanaonlyzuul](https://github.com/nodanaonlyzuul) - creator, maintainer
 
 ## Acknowledgements
 
