@@ -1,0 +1,13 @@
+name: bagit-cr
+version: 0.1.0
+
+authors:
+  - nodanaonlyzuul <beholdthepanda@gmail.com>
+
+targets:
+  bagit-cr:
+    main: src/bagit-cr.cr
+
+crystal: 0.19.4
+
+license: MIT
