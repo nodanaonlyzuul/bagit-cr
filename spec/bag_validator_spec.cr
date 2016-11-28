@@ -1,7 +1,7 @@
 # coding: utf-8
 require "./spec_helper"
 
-describe "a valid bag" do
+describe BagValidator do
 
   Spec.before_each do
   end
