@@ -1,16 +1,31 @@
 # coding: utf-8
 require "./spec_helper"
 
+def good_bags
+  bag_validator_good_md5    = BagValidator.new(path_to_bag: File.join(".", "resources", "good-md5"))
+  bag_validator_good_sha1   = BagValidator.new(path_to_bag: File.join(".", "resources", "good-sha1"))
+  bag_validator_good_sha256 = BagValidator.new(path_to_bag: File.join(".", "resources", "good-sha256"))
+  bag_validator_good_sha512 = BagValidator.new(path_to_bag: File.join(".", "resources", "good-sha512"))
+  {
+    bag_validator_good_md5:    bag_validator_good_md5,
+    bag_validator_good_sha1:   bag_validator_good_sha1,
+    bag_validator_good_sha256: bag_validator_good_sha256,
+    bag_validator_good_sha512: bag_validator_good_sha512
+  }
+end
+
 describe BagValidator do
 
-  Spec.before_each do
-  end
+  # Spec.before_each do
+  # end
+  #
+  # Spec.after_each do
+  # end
 
-  Spec.after_each do
-  end
-
-  pending "should validate with no errors" do
-  #   expect(@bag).to be_valid
+  it "should validate with no errors" do
+    good_bags.values.each do |bag_validator|
+      bag_validator.valid?.should eq(true)
+    end
   end
 
   pending "should be invalid if there is a file that's in the bag, but not in the manifest" do
