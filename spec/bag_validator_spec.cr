@@ -14,6 +14,13 @@ def good_bags
   }
 end
 
+def bad_bags
+  unlisted_file = BagValidator.new(path_to_bag: File.join(".", "resources", "unlisted-file"))
+  {
+    unlisted_file: unlisted_file
+  }
+end
+
 describe BagValidator do
 
 # Spec.before_each do
@@ -24,11 +31,16 @@ describe BagValidator do
 
 it "should validate with no errors" do
   good_bags.values.each do |bag_validator|
+    bag_validator.validate!
     bag_validator.valid?.should eq(true)
   end
 end
 
 pending "should be invalid if there is a file that's in the bag, but not in the manifest" do
+  unlisted_bag = bag_bags[:unlisted_file]
+  unlisted_bag.validate!
+  unlisted_bag.valid?.should eq(false)
+  unlisted_bag.errors.should
 #   # add a file into the bag through the back door
 #   File.open(File.join(@bag.data_dir, "not-manifested"), 'w') do |io|
 #     io.puts "nothing to see here, move along"
