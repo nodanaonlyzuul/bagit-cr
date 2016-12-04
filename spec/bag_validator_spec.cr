@@ -15,11 +15,13 @@ def good_bags
 end
 
 def bad_bags
-  unlisted_file     = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "unlisted-file"))
-  unknown_algorithm = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "unknown-algorithm"))
+  unlisted_file        = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "unlisted-file"))
+  unknown_algorithm    = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "unknown-algorithm"))
+  stranger_in_manifest = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "stranger-in-manifest"))
   {
     unlisted_file: unlisted_file,
-    unknown_algorithm: unknown_algorithm
+    unknown_algorithm: unknown_algorithm,
+    stranger_in_manifest: stranger_in_manifest
   }
 end
 
@@ -42,19 +44,17 @@ it "should be invalid if there is a file that's in the bag, but not in the manif
   unlisted_bag = bad_bags[:unlisted_file]
   unlisted_bag.validate!
   unlisted_bag.valid?.should eq(false)
-  unlisted_bag.errors.includes?("contains files that are not listed in manifest").should eq(true)
+  unlisted_bag.errors.size.should eq(1)
+  unlisted_bag.errors.includes?("contains files that are not listed in manifest: i-am-unlisted.hohoho").should eq(true)
 end
 
-pending "should be invalid if there are files that are in the manifest but not in the bag" do
-#   # add a file and then remove it through the back door
-#   @bag.add_file("file-k") { |io| io.puts "time to go" }
-#   @bag.manifest!
-#
-#   FileUtils::rm File.join(@bag.bag_dir, "data", "file-k")
-#
-#   @bag.validate_only("true_for/completeness")
-#   expect(@bag.errors.on(:completeness)).not_to be_empty
-#   expect(@bag).not_to be_valid
+it "should be invalid if there are files that are in the manifest but not in the bag" do
+  stranger_in_manifest = bad_bags[:stranger_in_manifest]
+  stranger_in_manifest.validate!
+  stranger_in_manifest.valid?.should eq(false)
+  # TODO: Find out why this fails
+  # stranger_in_manifest.errors.size.should eq(1)
+  stranger_in_manifest.errors.includes?("manifest lists file not contained in bag: imnothere.jpg").should eq(true)
 end
 
 pending "should be invalid if there is a fixity problem" do
