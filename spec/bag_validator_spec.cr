@@ -15,9 +15,11 @@ def good_bags
 end
 
 def bad_bags
-  unlisted_file = BagValidator.new(path_to_bag: File.join(".", "resources", "unlisted-file"))
+  unlisted_file     = BagValidator.new(path_to_bag: File.join(".", "resources", "unlisted-file"))
+  unknown_algorithm = BagValidator.new(path_to_bag: File.join(".", "resources", "unknown-algorithm"))
   {
-    unlisted_file: unlisted_file
+    unlisted_file: unlisted_file,
+    unknown_algorithm: unknown_algorithm
   }
 end
 
@@ -88,12 +90,11 @@ pending "should validate by oxum when needed" do
   # expect(@bag.valid_oxum?).to eq(true)
 end
 
-pending "should raise an sensible error when the manifest algorithm is unknown" do
-   # add a manifest with an unsupported algorithm
-#    File.open(File.join(@bag.bag_dir, "manifest-sha999.txt"), 'w') do |io|
-#      io.puts "digest-does-not-matter data/file-0\n"
-#    end
-#    expect { @bag.valid? }.to raise_error ArgumentError
+it "should raise an sensible error when the manifest algorithm is unknown" do
+  unknown_algorithm = bad_bags[:unknown_algorithm]
+  unknown_algorithm.validate!
+  unknown_algorithm.valid?.should eq(false)
+  unknown_algorithm.errors.should eq(["unknown algorithm used for manifest: dankmeme"])
 end
 
 pending "should validate false by oxum when file count is incorrect" do
