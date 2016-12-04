@@ -58,35 +58,12 @@ it "should be invalid if there are files that are in the manifest but not in the
 end
 
 pending "should be invalid if there is a fixity problem" do
-  # tweak a file through the back door
-#   File.open(@bag.bag_files[0], 'a') { |io| io.puts "oops!" }
-#
-#   @bag.validate_only("true_for/consistency")
-#   expect(@bag.errors.on(:consistency)).not_to be_empty
-#   expect(@bag).not_to be_valid
 end
 
 pending "should calculate sha1 correctly for a big file" do
-#   @bag.add_file 'big-data-file' do |fh|
-#     count = 0
-#     while count < 1024 * 512 do
-#       fh.write "1" * 1024
-#       count += 1
-#     end
-#   end
-#   @bag.manifest!
-#   sha1_manifest = File.join @bag_path, 'manifest-sha1.txt'
-#   checksums = {}
-#   File.open(sha1_manifest).each_line do |line|
-#       fixity, path = line.split(' ')
-#       checksums[path] = fixity
-#   end
-#   expected = checksums['data/big-data-file']
-#   expect(expected).to eq('12be64c30968bb90136ee695dc58f4b2276968c6')
 end
 
 pending "should validate by oxum when needed" do
-  # expect(@bag.valid_oxum?).to eq(true)
 end
 
 it "should raise an sensible error when the manifest algorithm is unknown" do
@@ -97,15 +74,9 @@ it "should raise an sensible error when the manifest algorithm is unknown" do
 end
 
 pending "should validate false by oxum when file count is incorrect" do
-#   # tweak oxum through backdoor
-#   File.open(@bag.bag_info_txt_file, 'a') { |f| f.write "Payload-Oxum: " + @bag.bag_info["Payload-Oxum"].split('.')[0] + '.0' }
-#   expect(@bag.valid_oxum?).to eq(false)
 end
 
 pending "should validate false by oxum when octetstream size is incorrect" do
-#   # tweak oxum through backdoor
-#   File.open(@bag.bag_info_txt_file, 'a') { |f| f.write "Payload-Oxum: 1." + @bag.bag_info["Payload-Oxum"].split('.')[1] }
-#   expect(@bag.valid_oxum?).to eq(false)
 end
 
  describe "tag manifest validation" do
@@ -129,15 +100,6 @@ end
 
 describe "tag manifest validation" do
   pending "should be invalid if listed tag file does not exist" do
-  #   # add a file and then remove it through the back door
-  #   @bag.add_tag_file("tag-k") { |io| io.puts 'time to go' }
-  #   @bag.tagmanifest!
-  #
-  #   FileUtils::rm File.join(@bag.bag_dir, 'tag-k')
-  #
-  #   # @bag.should_not be_valid
-  #   expect(@bag).not_to be_valid
-  #   expect(@bag.errors.on(:completeness)).not_to be_empty
   end
 end
 end
