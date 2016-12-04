@@ -36,19 +36,12 @@ it "should validate with no errors" do
   end
 end
 
-pending "should be invalid if there is a file that's in the bag, but not in the manifest" do
-  unlisted_bag = bag_bags[:unlisted_file]
+it "should be invalid if there is a file that's in the bag, but not in the manifest" do
+  unlisted_bag = bad_bags[:unlisted_file]
   unlisted_bag.validate!
   unlisted_bag.valid?.should eq(false)
-  unlisted_bag.errors.should
-#   # add a file into the bag through the back door
-#   File.open(File.join(@bag.data_dir, "not-manifested"), 'w') do |io|
-#     io.puts "nothing to see here, move along"
-#   end
-#
-#   @bag.validate_only("true_for/completeness")
-#   expect(@bag.errors.on(:completeness)).not_to be_empty
-#   expect(@bag).not_to be_valid
+  # This should change to be .include? and the error message should list file name(s)
+  unlisted_bag.errors.should eq(["contains files that are not listed in manifest"])
 end
 
 pending "should be invalid if there are files that are in the manifest but not in the bag" do

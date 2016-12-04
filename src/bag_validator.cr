@@ -1,5 +1,5 @@
 class BagValidator
-  getter :path_to_bag
+  getter :path_to_bag, :errors
 
   def initialize(path_to_bag : String)
     @errors      = [] of String
