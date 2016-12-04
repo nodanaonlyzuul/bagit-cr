@@ -2,10 +2,10 @@
 require "./spec_helper"
 
 def good_bags
-  bag_validator_good_md5    = BagValidator.new(path_to_bag: File.join(".", "resources", "good-md5"))
-  bag_validator_good_sha1   = BagValidator.new(path_to_bag: File.join(".", "resources", "good-sha1"))
-  bag_validator_good_sha256 = BagValidator.new(path_to_bag: File.join(".", "resources", "good-sha256"))
-  bag_validator_good_sha512 = BagValidator.new(path_to_bag: File.join(".", "resources", "good-sha512"))
+  bag_validator_good_md5    = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "good-md5"))
+  bag_validator_good_sha1   = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "good-sha1"))
+  bag_validator_good_sha256 = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "good-sha256"))
+  bag_validator_good_sha512 = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "good-sha512"))
   {
     bag_validator_good_md5:    bag_validator_good_md5,
     bag_validator_good_sha1:   bag_validator_good_sha1,
@@ -15,8 +15,8 @@ def good_bags
 end
 
 def bad_bags
-  unlisted_file     = BagValidator.new(path_to_bag: File.join(".", "resources", "unlisted-file"))
-  unknown_algorithm = BagValidator.new(path_to_bag: File.join(".", "resources", "unknown-algorithm"))
+  unlisted_file     = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "unlisted-file"))
+  unknown_algorithm = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "unknown-algorithm"))
   {
     unlisted_file: unlisted_file,
     unknown_algorithm: unknown_algorithm
@@ -93,7 +93,7 @@ it "should raise an sensible error when the manifest algorithm is unknown" do
   unknown_algorithm = bad_bags[:unknown_algorithm]
   unknown_algorithm.validate!
   unknown_algorithm.valid?.should eq(false)
-  unknown_algorithm.errors.includes?("unknown algorithm used for manifest: dankmeme").should eq(true)
+  unknown_algorithm.errors.includes?("unknown algorithm used for manifest: manifest-dankmeme.txt").should eq(true)
 end
 
 pending "should validate false by oxum when file count is incorrect" do
