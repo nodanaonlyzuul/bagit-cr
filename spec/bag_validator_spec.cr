@@ -42,8 +42,7 @@ it "should be invalid if there is a file that's in the bag, but not in the manif
   unlisted_bag = bad_bags[:unlisted_file]
   unlisted_bag.validate!
   unlisted_bag.valid?.should eq(false)
-  # This should change to be .include? and the error message should list file name(s)
-  unlisted_bag.errors.should eq(["contains files that are not listed in manifest"])
+  unlisted_bag.errors.includes?("contains files that are not listed in manifest").should eq(true)
 end
 
 pending "should be invalid if there are files that are in the manifest but not in the bag" do
@@ -94,7 +93,7 @@ it "should raise an sensible error when the manifest algorithm is unknown" do
   unknown_algorithm = bad_bags[:unknown_algorithm]
   unknown_algorithm.validate!
   unknown_algorithm.valid?.should eq(false)
-  unknown_algorithm.errors.should eq(["unknown algorithm used for manifest: dankmeme"])
+  unknown_algorithm.errors.includes?("unknown algorithm used for manifest: dankmeme").should eq(true)
 end
 
 pending "should validate false by oxum when file count is incorrect" do
