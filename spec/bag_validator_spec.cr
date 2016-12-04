@@ -57,34 +57,19 @@ it "should be invalid if there are files that are in the manifest but not in the
   stranger_in_manifest.errors.includes?("manifest lists file not contained in bag: imnothere.jpg").should eq(true)
 end
 
-pending "should calculate md5s correctly" do
-end
-
 pending "should not be valid with a malformed md5" do
-end
-
-pending "should calculate sha1 correctly" do
 end
 
 pending "should not be valid with a malformed sha1" do
 end
 
-pending "should calculate sha256 correctly" do
-end
-
 pending "should not be valid with a malformed sha256" do
-end
-
-pending "should calculate sha512 correctly" do
 end
 
 pending "should not be valid with a malformed sha512" do
 end
 
-pending "should be invalid if there is a fixity problem" do
-end
-
-pending "should calculate sha1 correctly for a big file" do
+pending "should not be valid if there is a fixity problem" do
 end
 
 pending "should validate by oxum when needed" do
