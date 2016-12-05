@@ -1,9 +1,6 @@
 require "./spec_helper"
 
 describe Bagit::Cr do
-  # TODO: Write tests
-
-  it "works" do
-    false.should eq(true)
+  pending "write specs in this namespace" do
   end
 end

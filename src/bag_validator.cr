@@ -14,7 +14,6 @@ class BagValidator
   end
 
   def validate!
-    @errors = [] of String
     validate_manifest_algorithm
     validate_manifest_contents
     self

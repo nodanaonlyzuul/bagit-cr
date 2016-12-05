@@ -18,10 +18,12 @@ def bad_bags
   unlisted_file        = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "unlisted-file"))
   unknown_algorithm    = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "unknown-algorithm"))
   stranger_in_manifest = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "stranger-in-manifest"))
+  bad_md5              = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "bad-md5"))
   {
     unlisted_file: unlisted_file,
     unknown_algorithm: unknown_algorithm,
-    stranger_in_manifest: stranger_in_manifest
+    stranger_in_manifest: stranger_in_manifest,
+    bad_md5: bad_md5
   }
 end
 
@@ -57,7 +59,11 @@ it "should be invalid if there are files that are in the manifest but not in the
   stranger_in_manifest.errors.includes?("manifest lists file not contained in bag: imnothere.jpg").should eq(true)
 end
 
-pending "should not be valid with a malformed md5" do
+it "should not be valid with a malformed md5" do
+  bad_md5 = bad_bags[:bad_md5]
+  bad_md5.validate!
+  bad_md5.valid?.should eq(false)
+  bad_md5.errors.includes?("malformed checksum for: picard.jpeg")
 end
 
 pending "should not be valid with a malformed sha1" do
