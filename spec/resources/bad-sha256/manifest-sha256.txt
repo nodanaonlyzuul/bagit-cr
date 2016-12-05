@@ -1,0 +1,3 @@
+THIS-IS-BAD  data/picard.jpeg
+598a1488bdc5ec87f03121181da07eba1999a41eeda1a5be71eafd91851acc4a  data/lorem_1.txt
+27911d318e4739fd210b5534e20b72393985c357d517683d8c92d749ef58275b  data/urand.data
