@@ -1,10 +1,17 @@
 class BagValidator
   getter :path_to_bag, :errors, :files_in_manifest
 
+  @manifest_name : String?
+  @manifest_type : String?
+
+  @errors            = [] of String
+  @files_in_manifest = [] of String
+  VALID_ALGORITHIMS = [/md5/i, /sha1/i, /sha256/i, /sha512/i]
+
   def initialize(path_to_bag : String)
-    @errors         = [] of String
-    @path_to_bag    = File.expand_path path_to_bag
-    @files_in_manifest = [] of String
+    @path_to_bag       = File.expand_path path_to_bag
+    @manifest_name     = manifest_name
+    @manifest_type     = manifest_type
     @files_in_manifest = read_manifest.values
   end
 
@@ -41,11 +48,23 @@ class BagValidator
 
   end
 
-  private def validate_manifest_algorithm
+  private def manifest_name : String?
     files = Dir.entries(@path_to_bag).map &.downcase
-    manifest_name = files.find {|entry| entry.includes?("manifest-")}
-    if manifest_name && !["md5", "sha1", "sha256", "sha512"].includes?(File.basename(manifest_name.split("-")[1], ".txt"))
-      @errors << "unknown algorithm used for manifest: #{manifest_name}"
+    files.find {|entry| entry.includes?("manifest-")}
+  end
+
+  private def manifest_type : String?
+    manifest_name = @manifest_name
+    if manifest_name
+      name_parts = manifest_name.split("manifest-")
+      File.basename(name_parts[1], ".txt")
+    end
+  end
+
+  private def validate_manifest_algorithm
+    mt = @manifest_type
+    if mt && VALID_ALGORITHIMS.none?{ |algo_regex| algo_regex.match(@manifest_type.to_s) }
+      @errors << "unknown algorithm used for manifest: #{@manifest_name}"
     end
   end
 
