@@ -15,7 +15,7 @@ class BagValidator
     @path_to_bag       = File.expand_path path_to_bag
     @manifest_name     = manifest_name
     @manifest_type     = manifest_type
-    @files_in_manifest = read_manifest.values
+    @files_in_manifest = read_manifest.keys
   end
 
   def payload_files
@@ -35,7 +35,7 @@ class BagValidator
   end
 
   private def validate_checksums
-    read_manifest.each do |checksum, file_path|
+    read_manifest.each do |file_path, checksum|
       full_path = File.join(@path_to_bag, file_path)
       manifest_type = @manifest_type
 
@@ -97,8 +97,8 @@ class BagValidator
     manifest_name = files.find {|entry| entry.includes?("manifest-")}
 
     File.each_line(File.join(@path_to_bag, manifest_name.to_s)) do |manifest_line|
-      hash, filename = manifest_line.split(/\s+/)
-      results[hash] = filename
+      hash, filename = manifest_line.chomp.split /\s+/, 2
+      results[filename] = hash
     end
 
     results
