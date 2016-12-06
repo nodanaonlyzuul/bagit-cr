@@ -29,12 +29,6 @@ end
 
 describe BagValidator do
 
-# Spec.before_each do
-# end
-#
-# Spec.after_each do
-# end
-
 it "should validate with no errors" do
   good_bags.values.each do |bag_validator|
     bag_validator.validate!
@@ -63,7 +57,7 @@ it "should not be valid with a malformed md5" do
   bad_md5 = bad_bags[:bad_md5]
   bad_md5.validate!
   bad_md5.valid?.should eq(false)
-  bad_md5.errors.includes?("malformed checksum for: picard.jpeg")
+  bad_md5.errors.includes?("malformed checksum for: picard.jpeg").should eq(true)
 end
 
 pending "should not be valid with a malformed sha1" do

@@ -1,14 +1,17 @@
+require "crypto/md5"
+
 class BagValidator
   getter :path_to_bag, :errors, :files_in_manifest
 
   @manifest_name : String?
   @manifest_type : String?
 
-  @errors            = [] of String
-  @files_in_manifest = [] of String
   VALID_ALGORITHIMS = [/md5/i, /sha1/i, /sha256/i, /sha512/i]
 
   def initialize(path_to_bag : String)
+    @errors            = [] of String
+    @files_in_manifest = [] of String
+
     @path_to_bag       = File.expand_path path_to_bag
     @manifest_name     = manifest_name
     @manifest_type     = manifest_type
@@ -23,11 +26,27 @@ class BagValidator
   def validate!
     validate_manifest_algorithm
     validate_manifest_contents
+    validate_checksums
     self
   end
 
   def valid?
     @errors.empty?
+  end
+
+  private def validate_checksums
+    read_manifest.each do |checksum, file_path|
+      full_path = File.join(@path_to_bag, file_path)
+
+      # Bad manifests can list files that don't exist
+      if File.file?(full_path)
+        computed_checksum = Crypto::MD5.hex_digest(File.read(full_path))
+        if computed_checksum != checksum
+          @errors << "malformed checksum for: #{File.basename(file_path)}"
+        end
+      end
+
+    end
   end
 
   private def validate_manifest_contents
