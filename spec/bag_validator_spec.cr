@@ -19,11 +19,17 @@ def bad_bags
   unknown_algorithm    = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "unknown-algorithm"))
   stranger_in_manifest = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "stranger-in-manifest"))
   bad_md5              = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "bad-md5"))
+  bad_sha1             = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "bad-sha1"))
+  bad_sha256           = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "bad-sha256"))
+  bad_sha512           = BagValidator.new(path_to_bag: File.join(".", "spec", "resources", "bad-sha512"))
   {
     unlisted_file: unlisted_file,
     unknown_algorithm: unknown_algorithm,
     stranger_in_manifest: stranger_in_manifest,
-    bad_md5: bad_md5
+    bad_md5: bad_md5,
+    bad_sha1: bad_sha1,
+    bad_sha256: bad_sha256,
+    bad_sha512: bad_sha512
   }
 end
 
@@ -60,17 +66,25 @@ it "should not be valid with a malformed md5" do
   bad_md5.errors.includes?("malformed checksum for: picard.jpeg").should eq(true)
 end
 
-pending "should not be valid with a malformed sha1" do
+it "should not be valid with a malformed sha1" do
   bad_sha1 = bad_bags[:bad_sha1]
   bad_sha1.validate!
   bad_sha1.valid?.should eq(false)
   bad_sha1.errors.includes?("malformed checksum for: picard.jpeg").should eq(true)
 end
 
-pending "should not be valid with a malformed sha256" do
+it "should not be valid with a malformed sha256" do
+  bad_sha256 = bad_bags[:bad_sha256]
+  bad_sha256.validate!
+  bad_sha256.valid?.should eq(false)
+  bad_sha256.errors.includes?("malformed checksum for: picard.jpeg").should eq(true)
 end
 
-pending "should not be valid with a malformed sha512" do
+it "should not be valid with a malformed sha512" do
+  bad_sha512 = bad_bags[:bad_sha512]
+  bad_sha512.validate!
+  bad_sha512.valid?.should eq(false)
+  bad_sha512.errors.includes?("malformed checksum for: picard.jpeg").should eq(true)
 end
 
 pending "should not be valid if there is a fixity problem" do
@@ -111,8 +125,8 @@ end
   end
  end
 
-describe "tag manifest validation" do
-  pending "should be invalid if listed tag file does not exist" do
+  describe "tag manifest validation" do
+    pending "should be invalid if listed tag file does not exist" do
+    end
   end
-end
 end
