@@ -61,6 +61,10 @@ it "should not be valid with a malformed md5" do
 end
 
 pending "should not be valid with a malformed sha1" do
+  bad_sha1 = bad_bags[:bad_sha1]
+  bad_sha1.validate!
+  bad_sha1.valid?.should eq(false)
+  bad_sha1.errors.includes?("malformed checksum for: picard.jpeg").should eq(true)
 end
 
 pending "should not be valid with a malformed sha256" do

@@ -1,4 +1,4 @@
-require "crypto/md5"
+require "openssl"
 
 class BagValidator
   getter :path_to_bag, :errors, :files_in_manifest
@@ -37,10 +37,12 @@ class BagValidator
   private def validate_checksums
     read_manifest.each do |checksum, file_path|
       full_path = File.join(@path_to_bag, file_path)
+      manifest_type = @manifest_type
 
       # Bad manifests can list files that don't exist
-      if File.file?(full_path)
-        computed_checksum = Crypto::MD5.hex_digest(File.read(full_path))
+      if File.file?(full_path) && VALID_ALGORITHIMS.any?{ |algo_regex| algo_regex.match(@manifest_type.to_s) }
+        computed_checksum = OpenSSL::Digest.new(manifest_type.to_s.upcase).file(full_path).hexdigest
+        # computed_checksum = algorithm_fetch(@manifest_type).hex_digest(File.read(full_path))
         if computed_checksum != checksum
           @errors << "malformed checksum for: #{File.basename(file_path)}"
         end
@@ -76,7 +78,7 @@ class BagValidator
     manifest_name = @manifest_name
     if manifest_name
       name_parts = manifest_name.split("manifest-")
-      File.basename(name_parts[1], ".txt")
+      File.basename(name_parts[1], ".txt").downcase
     end
   end
 
