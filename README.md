@@ -1,6 +1,7 @@
 # bagit-cr
 
 This is a [bagit](https://en.wikipedia.org/wiki/BagIt) validator.
+
 It's not ready for production but I am using this project
 to get acquainted with the [crystal programming language](crystal-lang.org).
 
@@ -12,7 +13,16 @@ to get acquainted with the [crystal programming language](crystal-lang.org).
 
 ## Usage
 
-`path/to/bagit_validator ~/Desktop/some_bag`
+```
+$ ./bagit_validator ~/Desktop/good_bag
+This bag is valid
+
+$ ./bagit_validator ~/Desktop/bag-with-bad-checksum
+This bag is not valid:malformed checksum for: picard.jpeg
+
+$ ./bagit_validator ~Desktop/bag-with-stranger-in-manifest
+This bag is not valid:manifest lists file not contained in bag: imnothere.jpg
+```
 
 ## Contributing (please)
 
